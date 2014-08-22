@@ -7,21 +7,11 @@
 //============================================================================
 
 
-#include <iostream>
-using namespace std;
+#include "gtest/gtest.h"
 
-int foo(int a)
+
+int main(int argc, char **argv)
 {
-	a += 1;
-	cout << "I'm in foo" << endl;
-	return a;
-}
-
-int main()
-{
-	int a = 1;
-	int b = foo(a);
-
-	cout << "!!!Hello World!!!" << b << endl; // prints !!!Hello World!!!
-	return 0;
+	::testing::InitGoogleTest(&argc, argv);
+	return RUN_ALL_TESTS();
 }

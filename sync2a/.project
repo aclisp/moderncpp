@@ -24,4 +24,11 @@
 		<nature>org.eclipse.cdt.managedbuilder.core.managedBuildNature</nature>
 		<nature>org.eclipse.cdt.managedbuilder.core.ScannerConfigNature</nature>
 	</natures>
+	<linkedResources>
+		<link>
+			<name>gtest</name>
+			<type>2</type>
+			<location>/usr/src/gtest/src</location>
+		</link>
+	</linkedResources>
 </projectDescription>
