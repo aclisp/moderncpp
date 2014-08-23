@@ -1,0 +1,67 @@
+/*
+ * Processor.cpp
+ *
+ *  Created on: Aug 23, 2014
+ *      Author: homer
+ */
+
+#include "Processor.h"
+#include <iostream>
+#include <thread>
+#include <chrono>
+
+
+using namespace std;
+
+
+namespace clx
+{
+
+template class Channel<Packet>;
+
+
+void Processor::process()
+{
+	//cout << "Processor start" << endl;
+	for (;;) {
+		Packet packet = _input.read();
+		if (packet._type == SYS_EXIT._type) {
+			break;
+		}
+		//cout << "process: " << packet.dump() << endl;
+		if (!_output.write(packet)) {
+			cerr << "Processor output overflow: drop " << packet.dump() << endl;
+		}
+	}
+	//cout << "Processor quit" << endl;
+}
+
+
+Processor::Processor()
+	: _thread(&Processor::process, this)
+{
+
+}
+
+Processor::~Processor()
+{
+	while (!_input.write(SYS_EXIT)) {
+		cerr << "Processor quit: can not end input!" << endl;
+		this_thread::sleep_for(chrono::milliseconds(10));
+	}
+	_thread.join();
+}
+
+void Processor::sendInput(const Packet& packet)
+{
+	if (!_input.write(packet)) {
+		cerr << "Processor overload: ignore " << packet.dump() << endl;
+	}
+}
+
+Packet Processor::recvOutput()
+{
+	return SYS_EXIT;
+}
+
+} /* namespace clx */

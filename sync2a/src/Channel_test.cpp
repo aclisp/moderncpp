@@ -22,6 +22,12 @@ TEST(ChannelTest, Basic) {
 	ch.write(1);
 	EXPECT_EQ(0, ch.read());
 	EXPECT_EQ(1, ch.read());
+	ch.write(5);
+	ch.write(9);
+	ch.write(17);
+	EXPECT_EQ(5, ch.read());
+	EXPECT_EQ(9, ch.read());
+	EXPECT_EQ(17, ch.read());
 }
 
 

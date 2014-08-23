@@ -23,7 +23,7 @@ class Channel
 {
 public:
 	Channel() {}
-	virtual ~Channel() {}
+	~Channel() {}
 	Channel& operator=(const Channel&) = delete;
 	Channel(const Channel&) = delete;
 	Channel& operator=(Channel&&) = delete;
@@ -45,7 +45,7 @@ bool Channel<T>::write(const T& obj)
 {
 	std::unique_lock<std::mutex> lock(_mutex);
 	if (_buffer.size() >= _capacity) return false;
-	_buffer.push_front(obj);
+	_buffer.emplace_front(obj);
 	lock.unlock();
 	_readable.notify_one();
 	return true;
@@ -59,6 +59,7 @@ T Channel<T>::read()
 	_readable.wait(lock, [this]{ return !_buffer.empty(); });
 	T obj(_buffer.back());
 	_buffer.pop_back();
+	lock.unlock();
 	return std::move(obj);
 }
 
