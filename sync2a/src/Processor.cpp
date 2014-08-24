@@ -17,9 +17,6 @@ using namespace std;
 namespace clx
 {
 
-template class Channel<Packet>;
-
-
 void Processor::process()
 {
 	//cout << "Processor start" << endl;
@@ -38,9 +35,8 @@ void Processor::process()
 
 
 Processor::Processor()
-	: _thread(&Processor::process, this)
 {
-
+	_thread = thread(&Processor::process, this);
 }
 
 Processor::~Processor()

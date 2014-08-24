@@ -17,8 +17,6 @@
 namespace clx
 {
 
-extern template class Channel<Packet>;
-
 class Processor
 {
 public:
@@ -31,9 +29,9 @@ public:
 protected:
 	void process();
 
-	std::thread _thread;
 	Channel<Packet> _input;
 	Channel<Packet> _output;
+	std::thread _thread;
 };
 
 } /* namespace clx */

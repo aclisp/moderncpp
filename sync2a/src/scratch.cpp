@@ -10,6 +10,7 @@
 #include "gtest/gtest.h"
 #include "Processor.h"
 #include "Packet.h"
+#include <vector>
 
 
 using namespace clx;
