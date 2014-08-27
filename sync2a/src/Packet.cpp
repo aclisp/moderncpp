@@ -9,10 +9,10 @@
 #include <sstream>
 
 
-using namespace std;
-
 namespace clx
 {
+
+using namespace std;
 
 const Packet SYS_EXIT = Packet();
 

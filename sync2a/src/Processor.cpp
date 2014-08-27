@@ -11,11 +11,12 @@
 #include <chrono>
 
 
-using namespace std;
-
-
 namespace clx
 {
+
+
+using namespace std;
+
 
 void Processor::process()
 {
