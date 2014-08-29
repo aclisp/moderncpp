@@ -48,10 +48,12 @@ TEST(ChannelTest, Thread) {
 				this_thread::sleep_for(chrono::milliseconds(10));
 			}
 		}
-		ASSERT_TRUE(ch.write(END)); // indicates end
 	});
-	reader.join();
 	writer.join();
+	while (!ch.write(END)) {
+		this_thread::sleep_for(chrono::milliseconds(10));
+	}
+	reader.join();
 	EXPECT_EQ(MAX, v.size());
 	for (int i=0; i<MAX; ++i) {
 		EXPECT_EQ(i, v[i]);
@@ -91,7 +93,9 @@ TEST(ChannelTest, MultiThread) {
 		writers[i].join();
 	}
 	for (int i=0; i<NUM_READER; ++i) {
-		ch.write(END);
+		while (!ch.write(END)) {
+			this_thread::sleep_for(chrono::milliseconds(10));
+		}
 	}
 	for (int i=0; i<NUM_READER; ++i) {
 		readers[i].join();

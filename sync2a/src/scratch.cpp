@@ -19,9 +19,9 @@ using namespace std;
 
 int main(int argc, char **argv)
 {
-	//::testing::InitGoogleTest(&argc, argv);
-	//return RUN_ALL_TESTS();
-
+	::testing::InitGoogleTest(&argc, argv);
+	return RUN_ALL_TESTS();
+#if 0
 	vector<Packet> packets;
 	const int MAX = 260;
 	for (int i=0; i<MAX; ++i) {
@@ -34,4 +34,5 @@ int main(int argc, char **argv)
 	}
 
 	return 0;
+#endif
 }
