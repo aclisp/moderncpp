@@ -5,6 +5,7 @@
 #include <thread>
 #include <random>
 #include <chrono>
+#include <atomic>
 
 
 namespace clx
@@ -28,6 +29,7 @@ public:
 
 protected:
 	static void process(int id, Processor& processor);
+	static std::atomic_int _payloadGenerator;
 
 	int _id;
 	Processor& _processor;

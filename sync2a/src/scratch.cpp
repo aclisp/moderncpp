@@ -43,10 +43,10 @@ int main(int argc, char **argv)
 
 #if 1
 	Processor processor(200);
-	UserGenerator userGen(5.0);
+	UserGenerator userGenerator(5.0);
 
-	for (int i=0; i<200; ++i) {
-		userGen.newUser(processor);
+	for (int i=0; i<500; ++i) {
+		userGenerator.newUser(processor);
 	}
 
 	//this_thread::sleep_for(chrono::seconds(5));

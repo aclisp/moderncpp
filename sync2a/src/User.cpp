@@ -10,6 +10,7 @@ namespace clx
 
 using namespace std;
 
+atomic_int User::_payloadGenerator{ 10000 };
 
 UserGenerator::UserGenerator(double arrivalRate)
 	: _randomGenerator(_randomDevice())
@@ -64,9 +65,9 @@ void User::detach()
 
 void User::process(int id, Processor& processor)
 {
-	Packet request(id, 10000 + id);
-	bool sent = processor.sendInput(request);
-	if (!sent) return;
+	Packet request(id, ++_payloadGenerator);
+	bool success = processor.sendInput(request);
+	if (!success) return;
 
 	auto future = processor.dispatcher().getFuture(id);
 	auto status = future.wait_for(chrono::milliseconds(1000));

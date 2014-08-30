@@ -32,7 +32,7 @@ void Processor::process()
 		this_thread::sleep_for(chrono::milliseconds(nextProcessingDelay()));
 
 		if (!_output.write(packet)) {
-			cerr << "Processor output overflow: drop " << packet.dump() << endl;
+			cerr << "ERROR: Processor output overflow: drop " << packet.dump() << endl;
 		}
 	}
 	//cout << "Processor quit" << endl;
@@ -55,12 +55,12 @@ Processor::Processor(int meanProcessingDelay)
 
 Processor::~Processor()
 {
-	while (!_output.write(SYS_EXIT)) {
-		cerr << "Processor quit: can not end output!" << endl;
+	while (!_input.write(SYS_EXIT)) {
+		cerr << "ERROR: Processor quit: can not end input!" << endl;
 		this_thread::sleep_for(chrono::milliseconds(10));
 	}
-	while (!_input.write(SYS_EXIT)) {
-		cerr << "Processor quit: can not end input!" << endl;
+	while (!_output.write(SYS_EXIT)) {
+		cerr << "ERROR: Processor quit: can not end output!" << endl;
 		this_thread::sleep_for(chrono::milliseconds(10));
 	}
 	_thread.join();
@@ -68,13 +68,11 @@ Processor::~Processor()
 
 bool Processor::sendInput(const Packet& packet)
 {
-	if (!_input.write(packet)) {
-		cerr << "Processor overload: ignore " << packet.dump() << endl;
-		return false;
+	bool success = _input.write(packet);
+	if (!success) {
+		cerr << "ERROR: Processor overload: ignore " << packet.dump() << endl;
 	}
-	else {
-		return true;
-	}
+	return success;
 }
 
 Dispatcher& Processor::dispatcher()

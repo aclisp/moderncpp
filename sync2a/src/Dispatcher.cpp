@@ -38,7 +38,7 @@ void Dispatcher::dispatch()
 			_dispTable.erase(search);
 		}
 		else {
-			cerr << "ERROR DISP: User ID NOT FOUND: " << packet._userId << endl;
+			cerr << "ERROR: Dispatcher: User ID NOT FOUND: " << packet.dump() << endl;
 		}
 
 		//cout << "DEBUG: dispTable size=" << _dispTable.size() << endl;
