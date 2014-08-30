@@ -11,6 +11,7 @@
 
 #include "Channel.h"
 #include "Packet.h"
+#include "Dispatcher.h"
 #include <thread>
 
 
@@ -20,6 +21,8 @@ namespace clx
 class Processor
 {
 public:
+	friend class Dispatcher;
+
 	Processor();
 	~Processor();
 	Processor& operator=(const Processor&) = delete;
@@ -28,7 +31,6 @@ public:
 	Processor(Processor&&) = delete;
 
 	void sendInput(const Packet& packet);
-	Packet recvOutput();
 
 protected:
 	void process();
@@ -36,6 +38,7 @@ protected:
 	Channel<Packet> _input;
 	Channel<Packet> _output;
 	std::thread _thread;
+	Dispatcher _disp;
 };
 
 } /* namespace clx */

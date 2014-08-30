@@ -45,7 +45,7 @@ int main(int argc, char **argv)
 	Processor processor;
 	UserGenerator userGen(1.0);
 
-	for (int i=0; i<21; ++i) {
+	for (int i=0; i<25; ++i) {
 		userGen.newUser(processor);
 	}
 

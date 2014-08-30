@@ -39,12 +39,17 @@ void Processor::process()
 
 
 Processor::Processor()
+	: _disp(*this)
 {
 	_thread = thread(&Processor::process, this);
 }
 
 Processor::~Processor()
 {
+	while (!_output.write(SYS_EXIT)) {
+		cerr << "Processor quit: can not end output!" << endl;
+		this_thread::sleep_for(chrono::milliseconds(10));
+	}
 	while (!_input.write(SYS_EXIT)) {
 		cerr << "Processor quit: can not end input!" << endl;
 		this_thread::sleep_for(chrono::milliseconds(10));
@@ -57,11 +62,6 @@ void Processor::sendInput(const Packet& packet)
 	if (!_input.write(packet)) {
 		cerr << "Processor overload: ignore " << packet.dump() << endl;
 	}
-}
-
-Packet Processor::recvOutput()
-{
-	return SYS_EXIT;
 }
 
 } /* namespace clx */

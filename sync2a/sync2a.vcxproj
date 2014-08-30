@@ -72,6 +72,7 @@
   <ItemGroup>
     <ClCompile Include="src\Channel.cpp" />
     <ClCompile Include="src\Channel_test.cpp" />
+    <ClCompile Include="src\Dispatcher.cpp" />
     <ClCompile Include="src\Packet.cpp" />
     <ClCompile Include="src\Processor.cpp" />
     <ClCompile Include="src\scratch.cpp" />
@@ -79,6 +80,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\Channel.h" />
+    <ClInclude Include="src\Dispatcher.h" />
     <ClInclude Include="src\Packet.h" />
     <ClInclude Include="src\Processor.h" />
     <ClInclude Include="src\User.h" />

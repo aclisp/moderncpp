@@ -2,7 +2,6 @@
 #define USER_H_
 
 
-#include "Processor.h"
 #include <thread>
 #include <random>
 #include <chrono>
@@ -10,6 +9,9 @@
 
 namespace clx
 {
+
+
+class Processor;
 
 
 class User
