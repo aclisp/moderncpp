@@ -65,11 +65,18 @@ void User::detach()
 void User::process(int id, Processor& processor)
 {
 	Packet request(id, 10000 + id);
-	processor.sendInput(request);
+	bool sent = processor.sendInput(request);
+	if (!sent) return;
 
-	auto future = processor.dispatcher().getFuture(id); 
-	Packet response = future.get();
-	cout << "User [" << id << "] got response: " << response.dump() << endl;
+	auto future = processor.dispatcher().getFuture(id);
+	auto status = future.wait_for(chrono::milliseconds(1000));
+	if (status == future_status::ready) {
+		Packet response = future.get();
+		cout << "User [" << id << "] got response: " << response.dump() << endl;
+	}
+	else {
+		cout << "User [" << id << "] timeout!" << endl;
+	}
 }
 
 

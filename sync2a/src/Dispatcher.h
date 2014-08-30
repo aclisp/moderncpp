@@ -23,6 +23,7 @@ public:
 	Dispatcher(Dispatcher&&) = delete;
 
 	std::future<Packet> getFuture(int userId);
+	void dumpDispTable();
 
 protected:
 	void dispatch();

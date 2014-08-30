@@ -42,14 +42,15 @@ int main(int argc, char **argv)
 #endif
 
 #if 1
-	Processor processor;
-	UserGenerator userGen(1.0);
+	Processor processor(200);
+	UserGenerator userGen(5.0);
 
-	for (int i=0; i<25; ++i) {
+	for (int i=0; i<200; ++i) {
 		userGen.newUser(processor);
 	}
 
-	this_thread::sleep_for(chrono::seconds(10));
+	//this_thread::sleep_for(chrono::seconds(5));
+	processor.dispatcher().dumpDispTable();
 
 	return 0;
 #endif

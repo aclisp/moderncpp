@@ -2,6 +2,7 @@
 #include "Packet.h"
 #include "Processor.h"
 #include <iostream>
+#include <chrono>
 
 namespace clx
 {
@@ -41,6 +42,16 @@ void Dispatcher::dispatch()
 		}
 
 		//cout << "DEBUG: dispTable size=" << _dispTable.size() << endl;
+	}
+}
+
+
+void Dispatcher::dumpDispTable()
+{
+	unique_lock<mutex> lock(_dispTableMutex);
+	for (const auto& pair : _dispTable) {
+		int userId = pair.first;
+		cout << "DISP TABLE: User ID: " << userId << endl;
 	}
 }
 

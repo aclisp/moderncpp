@@ -29,6 +29,7 @@ void Processor::process()
 		//cout << "process: " << packet.dump() << endl;
 
 		packet._payload += 10000;
+		this_thread::sleep_for(chrono::milliseconds(nextProcessingDelay()));
 
 		if (!_output.write(packet)) {
 			cerr << "Processor output overflow: drop " << packet.dump() << endl;
@@ -38,8 +39,16 @@ void Processor::process()
 }
 
 
-Processor::Processor()
+int Processor::nextProcessingDelay()
+{
+	return _processingDelay(_randomGenerator);
+}
+
+
+Processor::Processor(int meanProcessingDelay)
 	: _disp(*this)
+	, _randomGenerator(_randomDevice())
+	, _processingDelay(meanProcessingDelay - 100, meanProcessingDelay + 100)
 {
 	_thread = thread(&Processor::process, this);
 }
@@ -57,10 +66,14 @@ Processor::~Processor()
 	_thread.join();
 }
 
-void Processor::sendInput(const Packet& packet)
+bool Processor::sendInput(const Packet& packet)
 {
 	if (!_input.write(packet)) {
 		cerr << "Processor overload: ignore " << packet.dump() << endl;
+		return false;
+	}
+	else {
+		return true;
 	}
 }
 
