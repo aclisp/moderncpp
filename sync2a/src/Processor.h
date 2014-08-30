@@ -31,6 +31,7 @@ public:
 	Processor(Processor&&) = delete;
 
 	void sendInput(const Packet& packet);
+	Dispatcher& dispatcher();
 
 protected:
 	void process();

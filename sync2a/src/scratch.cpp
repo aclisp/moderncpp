@@ -49,6 +49,8 @@ int main(int argc, char **argv)
 		userGen.newUser(processor);
 	}
 
+	this_thread::sleep_for(chrono::seconds(10));
+
 	return 0;
 #endif
 }

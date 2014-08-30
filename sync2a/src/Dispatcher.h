@@ -5,6 +5,7 @@
 #include <thread>
 #include <map>
 #include <future>
+#include <mutex>
 
 namespace clx
 {
@@ -21,12 +22,15 @@ public:
 	Dispatcher& operator=(Dispatcher&&) = delete;
 	Dispatcher(Dispatcher&&) = delete;
 
+	std::future<Packet> getFuture(int userId);
+
 protected:
 	void dispatch();
 
 	Processor& _processor;
 	std::thread _thread;
-	std::map<int, std::promise<Packet>> _cache;
+	std::map<int, std::promise<Packet>> _dispTable;
+	std::mutex _dispTableMutex;
 };
 
 

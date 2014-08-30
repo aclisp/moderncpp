@@ -29,8 +29,30 @@ void Dispatcher::dispatch()
 			break;
 		}
 
-		cout << "Dispatch user [" << packet._userId << "]" << endl;
+		//cout << "Dispatch user [" << packet._userId << "]" << endl;
+		unique_lock<mutex> lock(_dispTableMutex);
+		auto search = _dispTable.find(packet._userId);
+		if (search != _dispTable.end()) {
+			search->second.set_value(packet);
+			_dispTable.erase(search);
+		}
+		else {
+			cerr << "ERROR DISP: User ID NOT FOUND: " << packet._userId << endl;
+		}
+
+		//cout << "DEBUG: dispTable size=" << _dispTable.size() << endl;
 	}
+}
+
+
+future<Packet> Dispatcher::getFuture(int userId)
+{
+	promise<Packet> promise;
+	future<Packet> future = promise.get_future();
+	unique_lock<mutex> lock(_dispTableMutex);
+	_dispTable[userId] = move(promise);
+	lock.unlock();
+	return move(future);
 }
 
 } /* namespace clx */

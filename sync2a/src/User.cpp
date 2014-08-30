@@ -39,6 +39,7 @@ void UserGenerator::newUser(Processor& processor)
 	this_thread::sleep_for(chrono::microseconds(microSeconds));
 
 	int newUserId = ++_idGenerator;
+	if (_idGenerator >= 99) _idGenerator = 0;
 	cout << "User [" << newUserId << "] spawned at " << elapsedSeconds() 
 		 << "s (" << intervalSeconds << ")" << endl;
 
@@ -63,8 +64,12 @@ void User::detach()
 
 void User::process(int id, Processor& processor)
 {
-	Packet packet(id, 10000 + id);
-	processor.sendInput(packet);
+	Packet request(id, 10000 + id);
+	processor.sendInput(request);
+
+	auto future = processor.dispatcher().getFuture(id); 
+	Packet response = future.get();
+	cout << "User [" << id << "] got response: " << response.dump() << endl;
 }
 
 

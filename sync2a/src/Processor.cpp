@@ -28,7 +28,7 @@ void Processor::process()
 		}
 		//cout << "process: " << packet.dump() << endl;
 
-		// TODO
+		packet._payload += 10000;
 
 		if (!_output.write(packet)) {
 			cerr << "Processor output overflow: drop " << packet.dump() << endl;
@@ -62,6 +62,11 @@ void Processor::sendInput(const Packet& packet)
 	if (!_input.write(packet)) {
 		cerr << "Processor overload: ignore " << packet.dump() << endl;
 	}
+}
+
+Dispatcher& Processor::dispatcher()
+{
+	return _disp;
 }
 
 } /* namespace clx */
