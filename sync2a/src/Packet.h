@@ -26,6 +26,7 @@ public:
 		: _userId(userId), _type(Type::DEFAULT), _payload(payload)
 	{}
 	Packet() {}
+
 	std::string dump() const;
 
 	int _userId = -1;

@@ -22,6 +22,10 @@ class Processor
 public:
 	Processor();
 	~Processor();
+	Processor& operator=(const Processor&) = delete;
+	Processor(const Processor&) = delete;
+	Processor& operator=(Processor&&) = delete;
+	Processor(Processor&&) = delete;
 
 	void sendInput(const Packet& packet);
 	Packet recvOutput();

@@ -10,7 +10,9 @@
 #include "gtest/gtest.h"
 #include "Processor.h"
 #include "Packet.h"
+#include "User.h"
 #include <vector>
+#include <string>
 
 
 using namespace clx;
@@ -19,8 +21,11 @@ using namespace std;
 
 int main(int argc, char **argv)
 {
+#if 0
 	::testing::InitGoogleTest(&argc, argv);
 	return RUN_ALL_TESTS();
+#endif
+
 #if 0
 	vector<Packet> packets;
 	const int MAX = 260;
@@ -31,6 +36,17 @@ int main(int argc, char **argv)
 	Processor processor;
 	for (const Packet& packet : packets) {
 		processor.sendInput(packet);
+	}
+
+	return 0;
+#endif
+
+#if 1
+	Processor processor;
+	UserGenerator userGen(1.0);
+
+	for (int i=0; i<21; ++i) {
+		userGen.newUser(processor);
 	}
 
 	return 0;

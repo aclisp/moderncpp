@@ -33,7 +33,7 @@ public:
 	T read();
 
 protected:
-	std::size_t _capacity = 256;
+	std::size_t _capacity = 20;
 	std::deque<T> _buffer;
 	std::mutex _mutex;
 	std::condition_variable _readable;

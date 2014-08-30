@@ -27,6 +27,9 @@ void Processor::process()
 			break;
 		}
 		//cout << "process: " << packet.dump() << endl;
+
+		// TODO
+
 		if (!_output.write(packet)) {
 			cerr << "Processor output overflow: drop " << packet.dump() << endl;
 		}

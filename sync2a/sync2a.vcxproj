@@ -75,11 +75,13 @@
     <ClCompile Include="src\Packet.cpp" />
     <ClCompile Include="src\Processor.cpp" />
     <ClCompile Include="src\scratch.cpp" />
+    <ClCompile Include="src\User.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\Channel.h" />
     <ClInclude Include="src\Packet.h" />
     <ClInclude Include="src\Processor.h" />
+    <ClInclude Include="src\User.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
