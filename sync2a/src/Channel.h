@@ -10,7 +10,6 @@
 
 
 #include <deque>
-#include <utility>
 #include <mutex>
 #include <condition_variable>
 
@@ -60,7 +59,7 @@ T Channel<T>::read()
 	T obj(_buffer.back());
 	_buffer.pop_back();
 	lock.unlock();
-	return std::move(obj);
+	return obj;
 }
 
 

@@ -63,7 +63,7 @@ future<Packet> Dispatcher::getFuture(int userId)
 	unique_lock<mutex> lock(_dispTableMutex);
 	_dispTable[userId] = move(promise);
 	lock.unlock();
-	return move(future);
+	return future;
 }
 
 } /* namespace clx */
