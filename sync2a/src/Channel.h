@@ -21,21 +21,18 @@ template<typename T>
 class Channel
 {
 public:
-	Channel() {}
-	~Channel() {}
-	Channel& operator=(const Channel&) = delete;
-	Channel(const Channel&) = delete;
-	Channel& operator=(Channel&&) = delete;
-	Channel(Channel&&) = delete;
-
+	void setBlockWriteOnFull(bool block) { _blockWriteOnFull = block; }
+	void setCapacity(std::size_t cap) { _capacity = cap; }
 	bool write(const T&);
 	T read();
 
 protected:
+	bool _blockWriteOnFull = true;
 	std::size_t _capacity = 20;
 	std::deque<T> _buffer;
 	std::mutex _mutex;
 	std::condition_variable _readable;
+	std::condition_variable _writable;
 };
 
 
@@ -43,7 +40,14 @@ template<typename T>
 bool Channel<T>::write(const T& obj)
 {
 	std::unique_lock<std::mutex> lock(_mutex);
-	if (_buffer.size() >= _capacity) return false;
+
+	if (_blockWriteOnFull) {
+		_writable.wait(lock, [this] { return _buffer.size() < _capacity; });
+	} 
+	else if (_buffer.size() >= _capacity) {
+		return false;
+	}
+
 	_buffer.emplace_front(obj);
 	lock.unlock();
 	_readable.notify_one();
@@ -55,10 +59,14 @@ template<typename T>
 T Channel<T>::read()
 {
 	std::unique_lock<std::mutex> lock(_mutex);
-	_readable.wait(lock, [this]{ return !_buffer.empty(); });
+	_readable.wait(lock, [this] { return !_buffer.empty(); });
 	T obj(_buffer.back());
 	_buffer.pop_back();
 	lock.unlock();
+
+	if (_blockWriteOnFull) {
+		_writable.notify_one();
+	}
 	return obj;
 }
 

@@ -21,7 +21,7 @@ using namespace std;
 
 int main(int argc, char **argv)
 {
-#if 0
+#if 1
 	::testing::InitGoogleTest(&argc, argv);
 	return RUN_ALL_TESTS();
 #endif
@@ -41,7 +41,7 @@ int main(int argc, char **argv)
 	return 0;
 #endif
 
-#if 1
+#if 0
 	Processor processor(200);
 	UserGenerator userGenerator(5.0);
 

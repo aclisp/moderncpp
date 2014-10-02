@@ -64,8 +64,8 @@ TEST(ChannelTest, Thread) {
 TEST(ChannelTest, MultiThread) {
 	Channel<int> ch;
 	const int MAX = 100000;
-	const int NUM_READER = 3;
-	const int NUM_WRITER = 10;
+	const int NUM_READER = 10;
+	const int NUM_WRITER = 4;
 	const int END = -1;
 	vector<int> sink[NUM_READER];
 	auto read = [=, &ch](vector<int>& v) {
